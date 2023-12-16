@@ -23,14 +23,16 @@ local Section1 = Tab2:NewSection("Player-Features")
 
 local CredSection = Tab1:NewSection("Settings")
 
-Section:NewTextBox("Auto Open Eggs (6)", "Type The Name Of The Egg", function(s)
+Section:NewTextBox("Auto Open Eggs", "Type The Name Of The Egg", function(s)
+while true do
 local args = {
     [1] = (s),
-    [2] = 6
+    [2] = 1
 }
 
 game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Eggs_RequestPurchase"):InvokeServer(unpack(args))
-
+wait(2)
+end
 end)
 
 
