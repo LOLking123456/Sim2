@@ -1,0 +1,296 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+local Window = Library.CreateLib("Pet Simulator 99 [UPDATE 1] | Legend HandlesYT", "Serpent")
+
+
+local Tab = Window:NewTab("Main-Features")
+
+
+
+local Tab2 = Window:NewTab("Player-Features")
+
+local Tab1 = Window:NewTab("Settings")
+
+
+
+
+
+local Section = Tab:NewSection("Main-Features")
+
+
+
+local Section1 = Tab2:NewSection("Player-Features")
+
+local CredSection = Tab1:NewSection("Settings")
+
+
+Section:NewButton("Auto Fish (OP)", "Auto Fish", function()
+
+
+local Chimpanzees = game:GetService("Players")
+local Jungle = game:GetService("Workspace")
+local TreeClimbingService = game:GetService("RunService")
+local BananaStorage = game:GetService("ReplicatedStorage")
+
+
+local InGame = false
+local Monkey = Chimpanzees.LocalPlayer
+local MonkeyHabitat = Jungle:WaitForChild("__THINGS")
+local ActiveMonkeys = MonkeyHabitat:WaitForChild("__INSTANCE_CONTAINER"):WaitForChild("Active")
+local MonkeyDebris = Jungle:WaitForChild("__DEBRIS")
+local MonkeyNetwork = BananaStorage:WaitForChild("Network")
+local OldMonkeyHooks = {}
+local MonkeyFishingGame = Monkey:WaitForChild("PlayerGui"):WaitForChild("_INSTANCES").FishingGame.GameBar
+local CurrentMonkeyFishingModule = require(MonkeyHabitat.__INSTANCE_CONTAINER.Active:WaitForChild("Fishing").ClientModule.FishingGame)
+
+--  functions
+
+for i, v in pairs(CurrentMonkeyFishingModule) do
+    OldMonkeyHooks[i] = v
+end
+
+CurrentMonkeyFishingModule.IsFishInBar = function()
+    return math.random(1, 6) ~= 1
+end
+
+CurrentMonkeyFishingModule.StartGame = function(...)
+    InGame = true
+    return OldMonkeyHooks.StartGame(...)
+end
+
+CurrentMonkeyFishingModule.StopGame = function(...)
+    InGame = false
+    return OldMonkeyHooks.StopGame(...)
+end
+
+local function waitForMonkeyGameState(state)
+    repeat
+        TreeClimbingService.RenderStepped:Wait()
+    until InGame == state
+end
+
+local function getMonkeyRod()
+    return Monkey.Character and Monkey.Character:FindFirstChild("Rod", true)
+end
+
+local function getMonkeyBubbles(anchor)
+    local myBobber = nil
+    local myBubbles = false
+    local closestBobber = math.huge
+
+    for _, v in pairs(ActiveMonkeys.Fishing.Bobbers:GetChildren()) do
+        local distance = (v.Bobber.CFrame.Position - anchor.CFrame.Position).Magnitude
+
+        if distance <= closestBobber then
+            myBobber = v.Bobber
+            closestBobber = distance
+        end
+    end
+
+    if myBobber then
+        for _, v in pairs(MonkeyDebris:GetChildren()) do
+            if v.Name == "host" and v:FindFirstChild("Attachment") and (v.Attachment:FindFirstChild("Bubbles") or v.Attachment:FindFirstChild("Rare Bubbles")) and (v.CFrame.Position - myBobber.CFrame.Position).Magnitude <= 1 then
+                myBubbles = true
+                break
+            end
+        end
+    end
+
+    return myBubbles
+end
+
+while task.wait(1) do
+    pcall(function()
+        local fishingInstance = MonkeyHabitat.__INSTANCE_CONTAINER.Active:FindFirstChild("Fishing")
+        if fishingInstance and not InGame then
+            MonkeyNetwork.Instancing_FireCustomFromClient:FireServer("Fishing", "RequestCast", Vector3.new(1158 + math.random(-10, 10), 75, -3454 + math.random(-10, 10)))
+
+            local myAnchor = getMonkeyRod():WaitForChild("FishingLine").Attachment0
+            repeat
+                TreeClimbingService.RenderStepped:Wait()
+            until not ActiveMonkeys:FindFirstChild("Fishing") or (myAnchor and getMonkeyBubbles(myAnchor)) or InGame
+
+            if ActiveMonkeys:FindFirstChild("Fishing") then
+                MonkeyNetwork.Instancing_FireCustomFromClient:FireServer("Fishing", "RequestReel")
+                waitForMonkeyGameState(true)
+                waitForMonkeyGameState(false)
+            end
+
+            repeat
+                TreeClimbingService.RenderStepped:Wait()
+            until not ActiveMonkeys:FindFirstChild("Fishing") or (getMonkeyRod() and getMonkeyRod().Parent.Bobber.Transparency <= 0)
+        end
+    end)
+end
+end)
+
+
+Section:NewButton("AutoFarm V1 (Auto Clicker, R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
+local Toggle = false
+game:GetService"UserInputService".InputBegan:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.R then Toggle = not Toggle end
+end)
+while task.wait() do
+    if Toggle then
+  local cps = 100 -- Clicks per second here
+
+     mouse1click()
+     wait(1/cps)
+
+    end
+end
+end)
+
+
+Section:NewToggle("Auto Collect Mine Chests", "Auto Dig", function(Value)
+   a = Value
+        while a do task.wait(1)
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"]["__INSTANCE_CONTAINER"].Active.Digsite.Important.ActiveChests:GetDescendants()) do
+if v:IsA("MeshPart") then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+end
+end
+            end)
+        end
+end)
+
+Section:NewToggle("Auto Collect Lootbags", "Auto Collect Lootbags", function(Value)
+   a = Value
+        while a do task.wait(1)
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"].Lootbags:GetDescendants()) do
+if v:IsA("MeshPart") then
+v.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)
+end
+end
+            end)
+        end
+end)
+
+Section:NewToggle("Auto Collect Orbs/Coins", "Auto Collect Orbs/Coins", function(Value)
+   a = Value
+        while a do task.wait()
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"].Orbs:GetDescendants()) do
+if v:IsA("Part") then
+v.CFrame = CFrame.new(game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position)
+end
+end
+            end)
+        end
+end)
+Section:NewButton("Remove Egg Animations", "Removes Egg Animations (Go Faster)", function()
+local Eggs = game.Players.LocalPlayer.PlayerScripts.Scripts.Game['Egg Opening Frontend']getsenv(Eggs).PlayEggAnimation = function() return end
+end)
+
+Section:NewButton("Unlock VIP Room", "Free VIP", function()
+
+end)
+
+Section:NewButton("Auto Stairway to Heaven (FREE HUGE)", "There is a chance to get a huge by doing this over and over", function()
+
+loadstring(game:HttpGet('https://raw.githubusercontent.com/fissurectomy/woah/main/ps99_stairway.lua'))()
+end)
+
+Section:NewButton("Anti AFK", "Stay In game Forever!", function()
+local vu = game:GetService("VirtualUser")
+
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+
+   vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+
+   wait(1)
+
+   vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+
+end)
+end)
+
+
+
+
+Section1:NewToggle("Noclip", "Go Through Things, Use Infinite Jump With it", function(state) -- 500 (MaxValue) | 0 (MinValue)
+local Noclip = nil
+local Clip = nil
+
+function noclip()
+	Clip = false
+	local function Nocl()
+		if Clip == false and game.Players.LocalPlayer.Character ~= nil then
+			for _,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+				if v:IsA('BasePart') and v.CanCollide and v.Name ~= floatName then
+					v.CanCollide = false
+				end
+			end
+		end
+		wait(0.21) -- basic optimization
+	end
+	Noclip = game:GetService('RunService').Stepped:Connect(Nocl)
+end
+
+function clip()
+	if Noclip then Noclip:Disconnect() end
+	Clip = true
+end
+
+noclip() -- to toggle noclip() and clip()
+end)
+Section1:NewToggle("Free Camera", "Zoom Out", function(state) -- 500 (MaxValue) | 0 (MinValue)
+  local LocalPlayer = game:GetService("Players").LocalPlayer
+		LocalPlayer.CameraMaxZoomDistance = 9e9
+		LocalPlayer.DevCameraOcclusionMode = Enum.DevCameraOcclusionMode.Invisicam
+end)
+
+
+
+Section1:NewSlider("Walkspeed", "Speed", 300, 16, function(s) -- 500 (MaxValue) | 0 (MinValue)
+    getgenv().WalkSpeedValue = (s); --set your desired walkspeed here
+
+local Player = game:service'Players'.LocalPlayer;
+
+Player.Character.Humanoid:GetPropertyChangedSignal'WalkSpeed':Connect(function()
+
+Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+
+end)
+
+
+Player.Character.Humanoid.WalkSpeed = getgenv().WalkSpeedValue;
+end)
+
+
+Section1:NewToggle("Infinite Jump", "Infinite Jump", function(state)
+
+ if state then
+_G.infinjump = true
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+Mouse.KeyDown:connect(function(k)
+if _G.infinjump then
+if k:byte() == 32 then
+Humanoid = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+Humanoid:ChangeState("Jumping")
+wait(0.1)
+Humanoid:ChangeState("Seated")
+end
+end
+end)
+local Player = game:GetService("Players").LocalPlayer
+local Mouse = Player:GetMouse()
+    else
+if _G.infinjump == true then
+_G.infinjump = false
+else
+_G.infinjump = true
+end
+end
+            end)
+
+Section1:NewSlider("FOV", "Field Of Views", 120, 70, function(s) -- 500 (MaxValue) | 0 (MinValue)
+game:GetService'Workspace'.Camera.FieldOfView = (s)
+end)
+
+CredSection:NewLabel("Made By Legend HandlesYT")
+CredSection:NewKeybind("Toggle UI", "Toggle The UI", Enum.KeyCode.L, function()	Library:ToggleUI()
+end)
