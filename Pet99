@@ -93,8 +93,33 @@ Section:NewToggle("Auto Collect Presents", "Collect Presents", function(Value)
    a = Value
         while a do task.wait(1)
         pcall(function()
-for i,v in pairs(game.Workspace["__THINGS"]["__INSTANCE_CONTAINER"].Active.Digsite.Important.ActiveChests:GetDescendants()) do
+for i,v in pairs(game.Workspace["__THINGS"].Presents:GetDescendants()) do
 if v:IsA("MeshPart") then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+end
+end
+            end)
+        end
+end)
+Section:NewToggle("Auto Collect Presents", "Collect Presents", function(Value)
+   a = Value
+        while a do task.wait(1)
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"].Presents:GetDescendants()) do
+if v:IsA("MeshPart") then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+end
+end
+            end)
+        end
+end)
+
+Section:NewToggle("Auto Collect Presents", "Collect Presents", function(Value)
+   a = Value
+        while a do task.wait(1)
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"].Ornaments:GetDescendants()) do
+if v.Name == "Ring" then
       game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
 end
 end
