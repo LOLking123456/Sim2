@@ -23,7 +23,7 @@ local Section1 = Tab2:NewSection("Player-Features")
 
 local CredSection = Tab1:NewSection("Settings")
 
-Section:NewTextBox("Auto Open Eggs (Be Close To Egg)", "Type The Name Of The Egg", function(s)
+Section:NewTextBox("Open Eggs (Be Close)", "Type The Name Of The Egg. Be Close To Eggs", function(s)
 while true do
 local args = {
     [1] = (s),
