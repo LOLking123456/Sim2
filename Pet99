@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("Pet Simulator 99 [UPDATE 1] | Legend HandlesYT", "GrapeTheme")
+local Window = Library.CreateLib("[UPD 2] Pet Simulator 99! ❄️ | Legend HandlesYT", "GrapeTheme")
 
 
 local Tab = Window:NewTab("Main-Features")
