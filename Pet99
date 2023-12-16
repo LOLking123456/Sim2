@@ -27,6 +27,35 @@ local CredSection = Tab1:NewSection("Settings")
 
 Section:NewButton("AutoFarm (R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
 
+
+game.Workspace["__THINGS"].Eggs:Destroy()
+
+
+game.Workspace["__THINGS"].Pets:Destroy()
+
+game.Workspace["__THINGS"].Breakables:Destroy()
+
+game.Workspace["__THINGS"]["__FAKE_GROUND"]:Destroy()
+
+game.Workspace["__THINGS"]["__REMOTES"]:Destroy()
+
+game.Workspace["__THINGS"]["__INSTANCE_CONTAINER"]:Destroy()
+
+game.Workspace["__THINGS"]["__FAKE_INSTANCE_BREAK_ZONES"]:Destroy()
+game.Workspace["__THINGS"]["Lootbags"]:Destroy()
+
+game.Workspace["__THINGS"].Chests:Destroy()
+
+game.Workspace["__THINGS"].ExclusiveEggPets:Destroy()
+
+
+game.Workspace["__THINGS"].ExclusiveEggs:Destroy()
+
+game.Workspace["__THINGS"].Instances:Destroy()
+
+game.Workspace["__THINGS"].Items:Destroy()
+
+game.Workspace["__THINGS"].Chests:Destroy()
 game.Workspace["__THINGS"].ExclusiveEggPets:Destroy()
 
 
