@@ -26,6 +26,15 @@ local CredSection = Tab1:NewSection("Settings")
 
 
 Section:NewButton("AutoFarm (R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
+
+game.Workspace["__THINGS"]["Ski Chairs"]:Destroy()
+
+game.Workspace["__THINGS"].Sounds:Destroy()
+
+game.Workspace["__THINGS"].Hoverboards:Destroy()
+
+game.Workspace["__THINGS"].Lootboxes:Destroy()
+
 game.Workspace["__DEBRIS"]:Destroy()
 
 game.Workspace["__THINGS"].Booths:Destroy()
@@ -35,6 +44,7 @@ game.Workspace["__THINGS"].Cannons:Destroy()
 game.Workspace["__THINGS"].Flags:Destroy()
 
 game.Workspace["__THINGS"].Orbs:Destroy()
+
 end)
 
 Section:NewToggle("Auto Collect Presents", "Collect Presents", function(Value)
