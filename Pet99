@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
-local Window = Library.CreateLib("Pet Simulator 99 [UPDATE 1] | Legend HandlesYT", "Serpent")
+local Window = Library.CreateLib("Pet Simulator 99 [UPDATE 1] | Legend HandlesYT", "GrapeTheme")
 
 
 local Tab = Window:NewTab("Main-Features")
@@ -22,6 +22,33 @@ local Section = Tab:NewSection("Main-Features")
 local Section1 = Tab2:NewSection("Player-Features")
 
 local CredSection = Tab1:NewSection("Settings")
+
+
+
+Section:NewButton("AutoFarm (R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
+game.Workspace["__DEBRIS"]:Destroy()
+
+game.Workspace["__THINGS"].Booths:Destroy()
+
+game.Workspace["__THINGS"].Cannons:Destroy()
+
+game.Workspace["__THINGS"].Flags:Destroy()
+
+game.Workspace["__THINGS"].Orbs:Destroy()
+end)
+
+Section:NewToggle("Auto Collect Presents", "Collect Presents", function(Value)
+   a = Value
+        while a do task.wait(1)
+        pcall(function()
+for i,v in pairs(game.Workspace["__THINGS"]["__INSTANCE_CONTAINER"].Active.Digsite.Important.ActiveChests:GetDescendants()) do
+if v:IsA("MeshPart") then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame 
+end
+end
+            end)
+        end
+end)
 
 
 Section:NewButton("Auto Fish (OP)", "Auto Fish", function()
@@ -125,7 +152,7 @@ end
 end)
 
 
-Section:NewButton("AutoFarm V1 (Auto Clicker, R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
+Section:NewButton("AutoFarm (R On/Off)", "Press R To Turn It On And Off. Used To Click On Things!", function()
 local Toggle = false
 game:GetService"UserInputService".InputBegan:Connect(function(input)
     if input.KeyCode == Enum.KeyCode.R then Toggle = not Toggle end
